@@ -34,7 +34,7 @@ let smallshipPosition2;
 
 generateShips();
 
-console.log(Orientation);
+//console.log(Orientation);
 
 
 
@@ -108,11 +108,29 @@ createUserBoard(userGrid, userSquares, size);
 function apercu(event) {
     event.target.classList.replace('mer', 'bateau-user');
     shipUserSquares = shipUserSquares + 1;
-    //console.log(shipUserSquares)
+    if(shipUserSquares===1){
+    alert("Sélectionne 5 cases consécutives pour placer ton porte-avion");};
+
+    if(shipUserSquares===5){
+    alert("Sélectionne 4 cases consécutives pour placer ton croiseur")};
+
+    if(shipUserSquares===9){
+        alert("Sélectionne 3 cases consécutives pour placer ton sous-marin");
+    };
+
+    if(shipUserSquares===12){
+        alert("Sélectionne 2 cases consécutives pour placer ton torpilleur");
+    }
+
+    if(shipUserSquares>=14){
+        alert("Bravo ta flotte est placée !")
+        userGrid.removeEventListener('click', apercu);
+    }
+    console.log(shipUserSquares)
 };
 
 userGrid.addEventListener('click', apercu);
-console.log(shipUserSquares);
+//console.log(shipUserSquares);
 
 placeButton.addEventListener('click', (event) => {
     userGrid.removeEventListener('click', apercu);
@@ -224,49 +242,55 @@ function generateRandom() {
 };
 
 function generateDestroyer() {
-    let val = generateRandom();
+    let val = Math.floor(Math.random() * 95);
     if (Orientation === 0) {
-       return (val >= 5 && val <= 9 || val >= 15 && val <= 19 || val >= 25 && val <= 29 || val >= 35 && val <= 39 || val >= 45 && val <= 49 || val >= 55 && val <= 59 || val >= 65 && val <= 69 || val >= 75 && val <= 79 || val >= 85 && val <= 89 || val >= 95 && val <= 99) ? generateDestroyer: val;
+       return (val >= 5 && val <= 9 || val >= 15 && val <= 19 || val >= 25 && val <= 29 || val >= 35 && val <= 39 || val >= 45 && val <= 49 || val >= 55 && val <= 59 || val >= 65 && val <= 69 || val >= 75 && val <= 79 || val >= 85 && val <= 89 || val >= 95 && val <= 99) ? generateDestroyer() : val;
     };
     if (Orientation === 1) {
-        return (val >= 60 && val <= 69 || val >= 70 && val <= 79 || val >= 80 && val <= 89 || val >= 90 && val <= 99) ? generateDestroyer: val;
+        return (val >= 60 && val <= 69 || val >= 70 && val <= 79 || val >= 80 && val <= 89 || val >= 90 && val <= 99) ? generateDestroyer() : val;
     };
 };
 
 function generateBattleship() {
-    let val = generateRandom();
+    let val = Math.floor(Math.random() * 95);
     if (Orientation === 0) {
-       return (val >= 6 && val <= 9 || val >= 16 && val <= 19 || val >= 26 && val <= 29 || val >= 36 && val <= 39 || val >= 46 && val <= 49 || val >= 56 && val <= 59 || val >= 66 && val <= 69 || val >= 76 && val <= 79 || val >= 86 && val <= 89 || val >= 96 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 2 === destroyerPosition || val + 2 === destroyerPosition2 || val + 2 === destroyerPosition3 || val + 2 === destroyerPosition4 || val + 2 === destroyerPosition5 || val + 3 === destroyerPosition || val + 3 === destroyerPosition2 || val + 3 === destroyerPosition3 || val + 3 === destroyerPosition4 || val + 3 === destroyerPosition5) ? generateBattleship: val;
+       return (val >= 6 && val <= 9 || val >= 16 && val <= 19 || val >= 26 && val <= 29 || val >= 36 && val <= 39 || val >= 46 && val <= 49 || val >= 56 && val <= 59 || val >= 66 && val <= 69 || val >= 76 && val <= 79 || val >= 86 && val <= 89 || val >= 96 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 2 === destroyerPosition || val + 2 === destroyerPosition2 || val + 2 === destroyerPosition3 || val + 2 === destroyerPosition4 || val + 2 === destroyerPosition5 || val + 3 === destroyerPosition || val + 3 === destroyerPosition2 || val + 3 === destroyerPosition3 || val + 3 === destroyerPosition4 || val + 3 === destroyerPosition5) ? generateBattleship() : val;
     };
     if (Orientation === 1) {
-        return (val >= 70 && val <= 79 || val >= 80 && val <= 89 || val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 20 === destroyerPosition || val + 20 === destroyerPosition2 || val + 20 === destroyerPosition3 || val + 20 === destroyerPosition4 || val + 20 === destroyerPosition5 || val + 30 === destroyerPosition || val + 30 === destroyerPosition2 || val + 30 === destroyerPosition3 || val + 30 === destroyerPosition4 || val + 30 === destroyerPosition5) ? generateBattleship: val;
+        return (val >= 70 && val <= 79 || val >= 80 && val <= 89 || val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 20 === destroyerPosition || val + 20 === destroyerPosition2 || val + 20 === destroyerPosition3 || val + 20 === destroyerPosition4 || val + 20 === destroyerPosition5 || val + 30 === destroyerPosition || val + 30 === destroyerPosition2 || val + 30 === destroyerPosition3 || val + 30 === destroyerPosition4 || val + 30 === destroyerPosition5) ? generateBattleship() : val;
     };
 };
 
 function generateSubmarine() {
-    let val = generateRandom();
+    let val = Math.floor(Math.random() * 95);
     if (Orientation === 0) {
-        return (val >= 8 && val <= 9 || val >= 18 && val <= 19 || val >= 28 && val <= 29 || val >= 38 && val <= 39 || val >= 48 && val <= 49 || val >= 58 && val <= 59 || val >= 68 && val <= 69 || val >= 78 && val <= 79 || val >= 88 && val <= 89 || val >= 98 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4|| val + 1 === destroyerPosition || val  + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val  + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 2 === destroyerPosition || val + 2 === destroyerPosition2 || val + 2 === destroyerPosition3 || val + 2 === destroyerPosition4 || val + 2 === destroyerPosition5 || val + 2 === battleshipPosition || val + 2 === battleshipPosition2 || val + 2 === battleshipPosition3 || val + 2 === battleshipPosition4) ? generateDestroyer : val;
+        return (val >= 8 && val <= 9 || val >= 18 && val <= 19 || val >= 28 && val <= 29 || val >= 38 && val <= 39 || val >= 48 && val <= 49 || val >= 58 && val <= 59 || val >= 68 && val <= 69 || val >= 78 && val <= 79 || val >= 88 && val <= 89 || val >= 98 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4|| val + 1 === destroyerPosition || val  + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val  + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 2 === destroyerPosition || val + 2 === destroyerPosition2 || val + 2 === destroyerPosition3 || val + 2 === destroyerPosition4 || val + 2 === destroyerPosition5 || val + 2 === battleshipPosition || val + 2 === battleshipPosition2 || val + 2 === battleshipPosition3 || val + 2 === battleshipPosition4) ? generateDestroyer() : val;
         
     };
     if (Orientation === 1) {
-        return (val >= 80 && val <= 89 || val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val + 10 === destroyerPosition || val  + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val  + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 20 === destroyerPosition || val + 20 === destroyerPosition2 || val + 20 === destroyerPosition3 || val + 20 === destroyerPosition4 || val + 20 === destroyerPosition5 || val + 20 === battleshipPosition || val + 20 === battleshipPosition2 || val + 20 === battleshipPosition3 || val + 20 === battleshipPosition4) ? generateSubmarine: vall;
+        return (val >= 80 && val <= 89 || val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val + 10 === destroyerPosition || val  + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val  + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 20 === destroyerPosition || val + 20 === destroyerPosition2 || val + 20 === destroyerPosition3 || val + 20 === destroyerPosition4 || val + 20 === destroyerPosition5 || val + 20 === battleshipPosition || val + 20 === battleshipPosition2 || val + 20 === battleshipPosition3 || val + 20 === battleshipPosition4) ? generateSubmarine() : val;
     };
 }
 
 function generateSmallship() {
-    let val = generateRandom();
+    let val = Math.floor(Math.random() * 95);
+    //console.log(val)
     if (Orientation === 0) {
-       return (val === 9 || val === 19 || val === 29 || val === 39 || val === 49 || val === 59 || val === 69 || val === 79 || val === 89 || val === 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 1 === submarinePosition || val + 1 === submarinePosition2 || val + 1 === submarinePosition3) ? generateSmallship : val;
+       return (val === 9 || val === 19 || val === 29 || val === 39 || val === 49 || val === 59 || val === 69 || val === 79 || val === 89 || val === 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 1 === submarinePosition || val + 1 === submarinePosition2 || val + 1 === submarinePosition3) ? generateSmallship() : val;
     }
     if (Orientation === 1) {
-        return (val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3|| val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 10 === submarinePosition || val + 10 === submarinePosition2 || val + 10 === submarinePosition3) ? generateSmallship : val;
-    }
+        return (val >= 90 && val <= 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3|| val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 10 === submarinePosition || val + 10 === submarinePosition2 || val + 10 === submarinePosition3) ? generateSmallship() : val;
+    }    
 }
-console.log(destroyerPosition, destroyerPosition2, destroyerPosition3, destroyerPosition4, destroyerPosition5);
-console.log(battleshipPosition, battleshipPosition2, battleshipPosition3, battleshipPosition4);
-console.log(submarinePosition, submarinePosition2, submarinePosition3);
-console.log(smallshipPosition, smallshipPosition2);
+
+function tirs() {
+    let shot = Math.floor(Math.random() * 99);
+
+}
+//console.log(destroyerPosition, destroyerPosition2, destroyerPosition3, destroyerPosition4, destroyerPosition5);
+//console.log(battleshipPosition, battleshipPosition2, battleshipPosition3, battleshipPosition4);
+//console.log(submarinePosition, submarinePosition2, submarinePosition3);
+//console.log(smallshipPosition, smallshipPosition2);
 //userSquares.addEventListener('mousemove', ()=> {apercu})
 
 
