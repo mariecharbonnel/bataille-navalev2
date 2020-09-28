@@ -6,6 +6,7 @@ const userSquares = [];
 const computerSquares = [];
 let shipUserSquares = 0;
 let shipComputerSquares = 0;
+let shipComputerShot = 0;
 
 /*let grid = [];
 let dataGrid = [];
@@ -125,6 +126,7 @@ function apercu(event) {
     if(shipUserSquares>=14){
         alert("Bravo ta flotte est placée !")
         userGrid.removeEventListener('click', apercu);
+        placeButton.classList.remove('hidden');
     }
     console.log(shipUserSquares)
 };
@@ -134,7 +136,9 @@ userGrid.addEventListener('click', apercu);
 
 placeButton.addEventListener('click', (event) => {
     userGrid.removeEventListener('click', apercu);
+    computerGrid.addEventListener('click', userShot);
 });
+
 
 
 //creation grille computer
@@ -283,7 +287,7 @@ function generateSmallship() {
     }    
 }
 
-function randomShot() {
+/*function randomShot() {
     let randomShot = Math.floor(Math.random() * 99);
     
     if(userGrid.square.id===randomShot && square.classList.contains('bateau-user')){
@@ -291,7 +295,24 @@ function randomShot() {
     }
     else {square.classList.replace('bateau-user', 'plouf')}
 
-}
+}*/
+
+
+function userShot(event) {
+    let userShot = event.target;
+
+    if(userShot.classList.contains('bateau-computer')){
+        userShot.classList.replace('bateau-computer', 'touche');
+        shipComputerShot = shipComputerShot + 1;
+        if(shipComputerShot===14){
+            alert("Bravo tu as gagné !")}
+        console.log(shipComputerShot)
+    }
+    else {userShot.classList.replace('mer', 'plouf')};
+
+    
+    }
+
 //console.log(destroyerPosition, destroyerPosition2, destroyerPosition3, destroyerPosition4, destroyerPosition5);
 //console.log(battleshipPosition, battleshipPosition2, battleshipPosition3, battleshipPosition4);
 //console.log(submarinePosition, submarinePosition2, submarinePosition3);
