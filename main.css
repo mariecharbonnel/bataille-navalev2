@@ -1,0 +1,298 @@
+/* général */
+.bateau-user {
+  background-color: cornsilk;
+}
+
+.grille{
+  border: 1px solid darkgray;
+  
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background: url(img/bateauPirate.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #88f8d4;
+    font-family:'Pathway Gothic One';
+}
+
+.hidden {
+    display: none;
+}
+
+#header
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.logoJeu
+{
+    width: 15vw;
+    height: 15vh;
+    margin-top: 25px;
+}
+
+#logo img
+{
+    width: 20vw;
+    height: 20vh;
+    
+}
+
+#logo p
+{
+    font-size: 12px;
+    text-align: center;
+    margin-top: -4%;
+    font-weight: bold;
+}
+
+/* accueil */
+#pseudo
+{
+    text-align: center;
+    width: 25vw;
+    height: 6vh;
+    border-radius: 30px;
+    margin-top: 2%;
+}
+
+button
+{
+    width: 15vw;
+    height: 6vh;
+    border-radius: 30px;
+    margin-top: 2%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#button, #input{
+    text-align: center;
+}
+
+#accueil{
+    text-align: center;
+    font-size: 60px;
+    color: #4B1934;
+    text-shadow: -3px 0 white, 3px 1px white, 1px 3px white, 0 -3px white;
+
+}
+
+#level{
+    display: flex;
+    justify-content: space-around;
+    align-items:center ;
+    
+}
+button.level{
+    font-size: 35px;
+    height:10vh;
+    color: #000000;
+    font-family:'Pathway Gothic One';
+}
+.level:hover{
+    background-color:#c4c4c4;
+    
+}
+
+h1
+{
+    font-size: 80px;
+    text-align: center;
+    color: #4B1934;
+    text-shadow: -3px 0 white, 3px 1px white, 1px 3px white, 0 -3px white;
+}
+
+#change {
+    width: 15vw;
+    height: 8vh;
+    border-radius: 30px;
+    margin-top: 2%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/*grilles*/
+
+.container{
+    display: flex;
+    justify-content: space-around;
+}
+
+.grid-user{
+	border-radius: 30px;
+	background-color: blue;
+	width: 30.91190108191654vw;
+  height: 63.29113924050633vh;
+  min-height: 400px;
+  min-width: 400px;
+	display: flex;
+	flex-wrap: wrap;
+  margin: 20px;
+
+}
+
+.grid div{
+    
+	height: 38px;
+    width: 38px;
+}
+
+.bateau-computer{
+  background-color: chartreuse;
+}
+.grid-computer {
+	border-radius: 30px;
+    width: 30.91190108191654vw;
+    height: 63.29113924050633vh;
+    min-height: 400px;
+    min-width: 400px;
+	display: flex;
+	flex-wrap: wrap;
+	background-color:  #28b463;
+	margin: 20px;
+}
+
+.grid-display {
+	width: 100px;
+	height: 200px;
+	margin: 20px;
+	background-color: orange;
+	border-radius: 30px;
+
+}
+
+/*bateaux*/
+.ship > div {
+    width: 40px;
+    height: 40px;
+    background-color:white;
+  }
+  
+  .ship {
+ 
+    margin: 1vmin;
+    width: calc(4.6vmin * var(--width, 1));
+    height: calc(4.6vmin * var(--height, 1));
+    border-radius: 2.3vmin;
+
+  }
+  
+  .destroyer-container {
+    --width: 2;
+  }
+  
+  .destroyer-container-vertical {
+    --height: 2;
+    --width: 1;
+  }
+  
+  .submarine-container,
+  .cruiser-container {
+    --width: 3;
+  }
+  
+  .submarine-container-vertical,
+  .cruiser-container-vertical {
+    --height: 3;
+    --width: 1;
+  }
+  
+  .battleship-container {
+    --width: 4;
+  }
+  
+  .battleship-container-vertical {
+    --height: 4;
+    --width: 1;
+  }
+  
+  .carrier-container {
+    --width: 5;
+  }
+  
+  .carrier-container-vertical {
+    --height: 5;
+    --width: 1;
+  }
+  
+
+/*bateaux placés*/
+.taken,
+.ship {
+  background-color: hsl(0, 0%, 80%);
+}
+
+.taken.start.vertical,
+.taken.start.vertical::before {
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  background-color: #4B1934;
+}
+
+.taken.end.vertical,
+.taken.end.vertical::before {
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  background-color: #4B1934;
+}
+
+.taken.start.horizontal,
+.taken.start.horizontal::before {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  background-color: #4B1934;
+}
+
+.taken.end.horizontal,
+.taken.end.horizontal::before {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  background-color: #4B1934;
+}
+
+.taken.vertical::before,
+.taken.horizontal::before {
+  content: '';
+  position: absolute;
+  border: .3vmin solid white;
+  background-color: #4B1934;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+}
+
+.taken.horizontal::before {
+  animation: ripplesY 3s linear infinite;
+  border-left: none;
+  border-right: none;
+}
+
+.taken.vertical::before {
+  animation: ripplesX 3s linear infinite;
+  border-top: none;
+  border-bottom: none;
+}
+
+
+/*.case {
+  width: 10%;
+  line-height: 50px;
+  text-align: center;
+}
+
+.boat {
+  background-color: pink;
+}
+.sea {
+  background-color: blue;
+}
+.plouf {
+  background-color: green;
+}

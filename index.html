@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Bataille navale</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap" rel="stylesheet"> 
+    
+</head>
+<body>
+    <header>
+
+        <div id="header">
+            <a href="index.html"><img class="logoJeu" src="img/battleship(3).svg" /></a>
+
+            <div id="logo">
+                <img src="img/logo.svg" />
+                <p>PlayMyGameOrDie</p>
+            </div>
+        </div>
+    </header>
+    <h1>Bataille Navale</h1>
+
+    <div id=accueil></div>
+    <div id="input">
+        <input type="text" id="pseudo" placeholder="Votre pseudo" />
+        <div></div><button onclick="newUserName()" class="hidden" id="change">Changer d'utilisateur</button>
+        <button onclick="setUserName()" id="jouer">Jouer</button></div>
+    </div>
+    <div id="level">
+        <a href="facile.html"><div><button class="level" id="facile">Facile</button></div></a> 
+        <a href="difficile.html"><div ><button class="level" id="difficile">Difficile</button></div></a>
+    </div>
+    <script type="text/javascript" src='scripts/index.js'></script>
+    <script type="text/javascript" src='scripts/facile.js'></script>
+
+</body>
+</html>
