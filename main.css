@@ -137,15 +137,20 @@ h1
 
 }
 
+.grid-title{
+  color: #4B1934;
+  text-shadow: -3px 0 white, 3px 1px white, 1px 3px white, 0 -3px white;
+}
+
 .grid div{
-    
 	height: 38px;
-    width: 38px;
+  width: 38px;
 }
 
 .bateau-computer{
-  background-color: chartreuse;
+  background-color: #28b463;
 }
+
 .grid-computer {
 	border-radius: 30px;
     width: 30.91190108191654vw;
@@ -280,7 +285,13 @@ h1
   border-bottom: none;
 }
 
+.touche{
+  background-image: ;
+}
 
+.plouf{
+  background-image: ;
+}
 /*.case {
   width: 10%;
   line-height: 50px;

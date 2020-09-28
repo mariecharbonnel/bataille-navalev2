@@ -283,8 +283,13 @@ function generateSmallship() {
     }    
 }
 
-function tirs() {
-    let shot = Math.floor(Math.random() * 99);
+function randomShot() {
+    let randomShot = Math.floor(Math.random() * 99);
+    
+    if(userGrid.square.id===randomShot && square.classList.contains('bateau-user')){
+        square.classList.replace('bateau-user', 'touche')
+    }
+    else {square.classList.replace('bateau-user', 'plouf')}
 
 }
 //console.log(destroyerPosition, destroyerPosition2, destroyerPosition3, destroyerPosition4, destroyerPosition5);
