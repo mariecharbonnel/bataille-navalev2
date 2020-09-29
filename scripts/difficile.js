@@ -287,15 +287,17 @@ function generateSmallship() {
     }    
 }
 
-/*function randomShot() {
+function randomShot() {
     let randomShot = Math.floor(Math.random() * 99);
-    
-    if(userGrid.square.id===randomShot && square.classList.contains('bateau-user')){
-        square.classList.replace('bateau-user', 'touche')
+    userSquares.forEach(element=>{
+    if(userSquare.id===randomShot && userSquare.classList.contains('bateau-user')){
+        userSquare.classList.replace('bateau-user', 'touche')
     }
-    else {square.classList.replace('bateau-user', 'plouf')}
+    else {userSquare.classList.replace('bateau-user', 'plouf')}    
+    })
+    
 
-}*/
+}
 
 
 function userShot(event) {
