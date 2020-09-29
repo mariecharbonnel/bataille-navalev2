@@ -1,383 +1,344 @@
+const userGrid = document.getElementById('grid-user');
+const placeButton = document.getElementById('place-ok');
+const computerGrid = document.getElementById('grid-computer');
+const size = 10;
+const userSquares = [];
+const computerSquares = [];
+let shipUserSquares = 0;
+let shipComputerSquares = 0;
+let shipComputerShot = 0;
+let shipUserShot = 0;
+let randomShoot;
 
-// grille 
-document.addEventListener('DOMContentLoaded', () => {
-    const userGrid = document.querySelector('.grid-user');
-    const computerGrid = document.querySelector('.grid-computer');
-    const displayGrid = document.querySelector('.grid-display');
-    const ships = document.querySelectorAll('.ship');
-    const destroyer = document.querySelector('.destroyer-container');
-    const submarine = document.querySelector('.submarine-container');
-    const cruiser = document.querySelector('.cruiser-container');
-    const battleship = document.querySelector('.battleship-container');
-    const carrier = document.querySelector('.carrier-container');
-    const startButton = document.querySelector('#start');
-    const rotateButton = document.querySelector('#rotate');
-    const turnDisplay = document.querySelector('#whose-go');
-    const infoDisplay = document.querySelector('#info');
-    const setupButtons = document.getElementById('setup-buttons');
-    const userSquares = [];
-    const computerSquares = [];
-    let isHorizontal = true;
-    let isGameOver = false;
-    let currentPlayer = 'user';
-    const width = 10;
+/*let grid = [];
+let dataGrid = [];
+let refType = {};
+let ship;
+let shipAI = 0;*/
 
-    let playerNum = 0;
-    let ready = false;
-    let enemyReady = false;
-    let allShipsPlaced = false;
-    let shotFired = -1;
- //console.log(destroyer.childNodes)
-    // Placement bateaux
+let Orientation = generateOrientation();
 
-    function createBoards(grid, squares, width) {
+let destroyerPosition = generateDestroyer();
+let destroyerPosition2;
+let destroyerPosition3;
+let destroyerPosition4;
+let destroyerPosition5;
 
-        for (let cote = 0; cote < width * width; cote++) {
-            const square = document.createElement('div')
-            square.dataset.id = cote
-            grid.appendChild(square)
-            squares.push(square)
-        }
-    }
-    //ships
-    const shipArray = [
-        {
-            name: 'destroyer',
-            directions: [
-                [0, 1],
-                [0, width],
-            ]
-        },
-        {
-            name: 'submarine',
-            directions: [
-                [0, 1, 2],
-                [0, width, width * 2],
-            ]
-        },
-        {
-            name: 'cruiser',
-            directions: [
-                [0, 1, 2],
-                [0, width, width * 2],
-            ]
-        },
-        {
-            name: 'battleship',
-            directions: [
-                [0, 1, 2, 3],
-                [0, width, width * 2, width * 3],
-            ]
-        },
-        {
-            name: 'carrier',
-            directions: [
-                [0, 1, 2, 3, 4],
-                [0, width, width * 2, width * 3, width * 4],
-            ]
-        }
-    ];
-console.log(shipArray)
+let battleshipPosition = generateBattleship();
+let battleshipPosition2;
+let battleshipPosition3;
+let battleshipPosition4;
 
-    //creation grille utilisateur
-    createBoards(userGrid, userSquares, width);
+let submarinePosition = generateSubmarine();
+let submarinePosition2;
+let submarinePosition3;
 
-    // creation ordinateur
-    createBoards(computerGrid, computerSquares, width);
+let smallshipPosition = generateSmallship();
+let smallshipPosition2;
 
-    //Creation Grille
-    function createBoard(grid, squares) {
-        for (let i = 0; i < width * width; i++) {
-            const square = document.createElement('div');
-            square.dataset.id = i;
-            grid.appendChild(square);
-            squares.push(square);
-        }
+//console.log(Orientation);
+generateShips();
+
+console.log(smallshipPosition2)
+
+function generateOrientation(max) {
+    return Math.floor(Math.random() * Math.floor(2));
+};
+
+function generateShips() {
+    Orientation = generateOrientation();
+
+    if (Orientation === 0) {
+        destroyerPosition2 = destroyerPosition + 1;
+        destroyerPosition3 = destroyerPosition + 2;
+        destroyerPosition4 = destroyerPosition + 3;
+        destroyerPosition5 = destroyerPosition + 4;
     }
 
-    //Draw the computers ships in random locations
-  function generate(ship) {
-    let randomDirection = Math.floor(Math.random() * ship.directions.length)
-    let current = ship.directions[randomDirection]
-    if (randomDirection === 0) direction = 1
-    if (randomDirection === 1) direction = 10
-    let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))
-
-    const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains('taken'))
-    const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
-    const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)
-
-    if (!isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach(index => computerSquares[randomStart + index].classList.add('taken', ship.name))
-
-    else generate(ship)
-  }
-  
-    //Rotation des bateaux
-    function rotate() {
-        if (isHorizontal) {
-            destroyer.classList.toggle('destroyer-container-vertical');
-            submarine.classList.toggle('submarine-container-vertical');
-            cruiser.classList.toggle('cruiser-container-vertical');
-            battleship.classList.toggle('battleship-container-vertical');
-            carrier.classList.toggle('carrier-container-vertical');
-            isHorizontal = false;
-            // console.log(isHorizontal)
-            return
-        }
-        if (!isHorizontal) {
-            destroyer.classList.toggle('destroyer-container-vertical');
-            submarine.classList.toggle('submarine-container-vertical');
-            cruiser.classList.toggle('cruiser-container-vertical');
-            battleship.classList.toggle('battleship-container-vertical');
-            carrier.classList.toggle('carrier-container-vertical');
-            isHorizontal = true;
-            // console.log(isHorizontal)
-            return
-        }
-    }
-    rotateButton.addEventListener('click', rotate)
-
-    //Event listener pour le déplacement des bateaux de l'utilisateur
-    ships.forEach(ship => ship.addEventListener('dragstart', dragStart));
-    userSquares.forEach(square => square.addEventListener('dragstart', dragStart));
-    userSquares.forEach(square => square.addEventListener('dragover', dragOver));
-    userSquares.forEach(square => square.addEventListener('dragenter', dragEnter));
-    userSquares.forEach(square => square.addEventListener('dragleave', dragLeave));
-    userSquares.forEach(square => square.addEventListener('drop', dragDrop));
-    userSquares.forEach(square => square.addEventListener('dragend', dragEnd));
-
-    let selectedShipNameWithIndex;
-    let draggedShip;
-    let draggedShipLength;
-
-    //emmène le bateau et le reconnait nom
-    ships.forEach(ship => ship.addEventListener('mousedown', (e) => {
-        selectedShipNameWithIndex = e.target.id;
-        //console.log(e.target.id)
-
-    }))
-    //rendent l'élément droppable
-    function dragOver(e) {
-        e.preventDefault()
+    if (Orientation === 1) {
+        destroyerPosition2 = destroyerPosition + 10;
+        destroyerPosition3 = destroyerPosition + 20;
+        destroyerPosition4 = destroyerPosition + 30;
+        destroyerPosition5 = destroyerPosition + 40;
     }
 
-    function dragEnter(e) {
-        e.preventDefault()
+    Orientation = generateOrientation();
+    //battleship
+    if (Orientation === 0) {
+        battleshipPosition2 = battleshipPosition + 1;
+        battleshipPosition3 = battleshipPosition + 2;
+        battleshipPosition4 = battleshipPosition + 3;
     }
 
-    function dragLeave() {
-        //console.log('drag leave')
+    if (Orientation === 1) {
+        battleshipPosition2 = battleshipPosition + 10;
+        battleshipPosition3 = battleshipPosition + 20;
+        battleshipPosition4 = battleshipPosition + 30;
     }
 
-    //cible la div container
-    function dragStart() {
-        draggedShip = this;
-        draggedShipLength = this.children.length;
-        //console.log(draggedShip)
-        //console.log(draggedShip.children)
-        //console.log(draggedShip.lastElementChild)
-
+    Orientation = generateOrientation();
+    //submarine
+    if (Orientation === 0) {
+        submarinePosition2 = submarinePosition + 1;
+        submarinePosition3 = submarinePosition + 2;
     }
 
-    function dragDrop() {
-
-        let shipNameWithLastId = draggedShip.lastElementChild.id;
-        console.log(shipNameWithLastId)
-        let shipClass = shipNameWithLastId.slice(0, -2);
-        let lastShipIndex = parseInt(shipNameWithLastId.substr(-2));
-        let shipLastId = lastShipIndex + parseInt(this.dataset.id);
-        //console.log(shipLastId)
-        const notAllowedHorizontal = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 1, 11, 21, 31, 41, 51, 61, 71, 81, 91, 2, 22, 32, 42, 52, 62, 72, 82, 92, 3, 13, 23, 33, 43, 53, 63, 73, 83, 93]
-        const notAllowedVertical = [99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60]
-
-        let newNotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex)
-        let newNotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex)
-
-        selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
-
-        shipLastId = shipLastId - selectedShipIndex
-        console.log(selectedShipIndex)
-
-        if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
-            for (let i = 0; i < draggedShipLength; i++) {
-                let directionClass
-                if (i === 0) directionClass = 'start'
-                if (i === draggedShipLength - 1) directionClass = 'end'
-                userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', 'horizontal', directionClass, shipClass)
-            }
-            //As long as the index of the ship you are dragging is not in the newNotAllowedVertical array! This means that sometimes if you drag the ship by its
-            //index-1 , index-2 and so on, the ship will rebound back to the displayGrid.
-        } else if (!isHorizontal && !newNotAllowedVertical.includes(shipLastId)) {
-            for (let i = 0; i < draggedShipLength; i++) {
-                let directionClass
-                if (i === 0) directionClass = 'start'
-                if (i === draggedShipLength - 1) directionClass = 'end'
-                userSquares[parseInt(this.dataset.id) - selectedShipIndex + width * i].classList.add('taken', 'vertical', directionClass, shipClass)
-            }
-        } else return
-
-        displayGrid.removeChild(draggedShip)
-        if (!displayGrid.querySelector('.ship')) {
-            allShipsPlaced = true
-        }
-        }
-
-    
-    function dragEnd() {
-        // console.log('dragend')
-        console.log(allShipsPlaced)
+    if (Orientation === 1) {
+        submarinePosition2 = submarinePosition + 10;
+        submarinePosition3 = submarinePosition + 20;
     }
 
-    // Game Logic for Single Player
-function playGameSingle() {
-    if (isGameOver) return
-    if (currentPlayer === 'user') {
-      turnDisplay.innerHTML = 'Your Go'
-      computerSquares.forEach(square => square.addEventListener('click', function(e) {
-        shotFired = square.dataset.id
-        revealSquare(square.classList)
-      }))
+    Orientation = generateOrientation();
+    //smallShip
+    if (Orientation === 0) {
+        smallshipPosition2 = smallshipPosition + 1;
     }
-    if (currentPlayer === 'enemy') {
-      turnDisplay.innerHTML = 'Computers Go'
-      setTimeout(enemyGo, 1000)
+
+    if (Orientation === 1) {
+        smallshipPosition2 = smallshipPosition + 10;
     }
-  }
 
-// Single Player
-function startSinglePlayer() {
-    generate(shipArray[0])
-    generate(shipArray[1])
-    generate(shipArray[2])
-    generate(shipArray[3])
-    generate(shipArray[4])
+};
 
-    startButton.addEventListener('click', () => {
-      setupButtons.style.display = 'none'
-      playGameSingle()
-    })
+
+
+
+//creation grille utilisateur
+createUserBoard(userGrid, userSquares, size);
+
+//selection des emplacements bateaux
+
+function apercu(event) {
+    if (event.target.classList.contains('mer')) {
+        event.target.classList.replace('mer', 'bateau-user');
+        shipUserSquares = shipUserSquares + 1;
+    }
+
+    else {
+        alert("Tu as déjà sélectionné cette case ! ");
+        shipUserSquares = shipUserSquares - 1;
+    };
+
+    if (shipUserSquares === 1) {
+        alert("Sélectionne 5 cases consécutives pour placer ton porte-avion");
+    };
+
+    if (shipUserSquares === 5) {
+        alert("Sélectionne 4 cases consécutives pour placer ton croiseur")
+    };
+
+    if (shipUserSquares === 9) {
+        alert("Sélectionne 3 cases consécutives pour placer ton sous-marin");
+    };
+
+    if (shipUserSquares === 12) {
+        alert("Sélectionne 2 cases consécutives pour placer ton torpilleur");
+    }
+
+    if (shipUserSquares >= 14) {
+        alert("Bravo ta flotte est placée !");
+        userGrid.removeEventListener('click', apercu);
+        placeButton.classList.remove('hidden');
+    }
+    console.log(shipUserSquares)
+};
+
+userGrid.addEventListener('click', apercu);
+//console.log(shipUserSquares);
+
+placeButton.addEventListener('click', (event) => {
+    placeButton.classList.add('hidden');
+    userGrid.removeEventListener('click', apercu);
+    computerGrid.addEventListener('click', userShot);
+    computerGrid.addEventListener('click', randomCible);
+
+});
+
+
+
+//creation grille computer
+createComputerBoard(computerGrid, computerSquares, size);
+
+function createUserBoard(grid, squares, size) {
+
+    for (let cote = 0; cote < size * size; cote++) {
+        const square = document.createElement('div');
+        square.classList.add('mer');
+        square.id = cote;
+        grid.appendChild(square);
+        squares.push(square);
+    }
 }
 
-function playGameSingle() {
-    if (isGameOver) return
-    if (currentPlayer === 'user') {
-      turnDisplay.innerHTML = 'Your Go'
-      computerSquares.forEach(square => square.addEventListener('click', function(e) {
-        shotFired = square.dataset.id
-        revealSquare(square.classList)
-      }))
+function createComputerBoard(grid, squares, size) {
+
+    for (let cote = 0; cote < size * size; cote++) {
+        const square = document.createElement('div');
+        square.classList.add('mer');
+        square.classList.add('grille');
+        square.id = cote + 1000;
+        grid.appendChild(square);
+        squares.push(square);
+
+            if (cote === destroyerPosition) {
+                square.classList.replace('mer', 'bateau-computer-easy');
+                shipComputerSquares = shipComputerSquares + 1;
+            };
+
+            if (cote === destroyerPosition2) {
+                square.classList.replace('mer', 'bateau-computer-easy');
+                shipComputerSquares = shipComputerSquares + 1;
+            };
+
+            if (cote === destroyerPosition3) {
+                square.classList.replace('mer', 'bateau-computer-easy');
+                shipComputerSquares = shipComputerSquares + 1;
+            };
+
+            if (cote === destroyerPosition4) {
+                square.classList.replace('mer', 'bateau-computer-easy');
+                shipComputerSquares = shipComputerSquares + 1;
+            };
+
+            if (cote === destroyerPosition5) {
+                square.classList.replace('mer', 'bateau-computer-easy');
+                shipComputerSquares = shipComputerSquares + 1;
+            };
+
+        //positionnement battleship
+
+        if (cote === battleshipPosition) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        if (cote === battleshipPosition2) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        if (cote === battleshipPosition3) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+        if (cote === battleshipPosition4) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+
+        //postionnement submarine
+        if (cote === submarinePosition) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        if (cote === submarinePosition2) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        if (cote === submarinePosition3) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        //positionnement smallship
+        if (cote === smallshipPosition) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
+
+        if (cote === smallshipPosition2) {
+            square.classList.replace('mer', 'bateau-computer-easy');
+            shipComputerSquares = shipComputerSquares + 1;
+        };
     }
-    if (currentPlayer === 'enemy') {
-      turnDisplay.innerHTML = 'Computers Go'
-      setTimeout(enemyGo, 1000)
+};
+
+
+function generateDestroyer() {
+
+    let val = Math.floor(Math.random() * 99);
+    if (Orientation === 0) {
+        if ((val === [5-9]) || (val === [15-19]) || (val === [25-29]) || (val === [35-39]) || (val === [45-49]) || (val === [55-59]) || (val === [65-69]) || (val === [75-79]) || (val === [85-89]) || (val === [95-99]) || (val + 1>99) || (val + 2>99) || (val + 3>99) || (val + 4> 99)) {return val} else {val = Math.floor(Math.random() * 99)} return val;
+    };
+    if (Orientation === 1) {
+        if ((val === [60-69]) || (val === [70-79]) || (val === [80-89]) || (val === [90-99]) || (val === [95-99]) || (val + 1>99) || (val + 2>99) || (val + 3>99) || (val + 4> 99)) {return val} else {val = Math.floor(Math.random() * 99)} return val;
+    };
+};
+
+function generateBattleship() {
+    let val = Math.floor(Math.random() * 99);
+    if (Orientation === 0) {
+        if ((val + 1>99) || (val + 2>99) || (val + 3>99) || (val === [6-9]) || (val === [16-19]) || (val === [26-29]) || (val === [36-39]) || (val === [46-49]) || (val === [56-59]) || (val === [66-69]) || (val === [76-79]) || (val === [86-89]) || (val === [96-99]) || (val === destroyerPosition) || (val === destroyerPosition2) || (val === destroyerPosition3) || (val === destroyerPosition4) || (val === destroyerPosition5) || (val + 1 === destroyerPosition) || (val + 1 === destroyerPosition2) || (val + 1 === destroyerPosition3) || (val + 1 === destroyerPosition4) || (val + 1 === destroyerPosition5) || (val + 2 === destroyerPosition) || (val + 2 === destroyerPosition2) || (val + 2 === destroyerPosition3) || (val + 2 === destroyerPosition4) || (val + 2 === destroyerPosition5) || (val + 3 === destroyerPosition) || (val + 3 === destroyerPosition2) || (val + 3 === destroyerPosition3) || (val + 3 === destroyerPosition4) || (val + 3 === destroyerPosition5)) {return val}  else {val = Math.floor(Math.random() * 99)} return val;
+    };
+    if (Orientation === 1) {
+        if ((val + 1>99) || (val + 2>99) || (val + 3>99) || (val === [70-79]) || (val === [80-89]) || (val === [90-99]) || (val === destroyerPosition) || (val === destroyerPosition2) || (val === destroyerPosition3) || (val === destroyerPosition4) || (val === destroyerPosition5) || (val + 10 === destroyerPosition) || (val + 10 === destroyerPosition2) || (val + 10 === destroyerPosition3) || (val + 10 === destroyerPosition4) || (val + 10 === destroyerPosition5) || (val + 20 === destroyerPosition) || (val + 20 === destroyerPosition2) || (val + 20 === destroyerPosition3) || (val + 20 === destroyerPosition4) || (val + 20 === destroyerPosition5) || (val + 30 === destroyerPosition) || (val + 30 === destroyerPosition2) || (val + 30 === destroyerPosition3) || (val + 30 === destroyerPosition4) || (val + 30 === destroyerPosition5)) {return val} else {val = Math.floor(Math.random() * 99)} return val;
+    };
+};
+
+function generateSubmarine() {
+    let val = Math.floor(Math.random() * 99);
+    if (Orientation === 0) {
+        if ((val + 1>99) || (val + 2>99) || val === [8-9] || val === [18-19] || val === [28-29] || val === [38-39] || val === [48-49] || val === [58-59] || val === [68-69] || val === [78-79] || val === [88-89] || val === [98-99] || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 2 === destroyerPosition || val + 2 === destroyerPosition2 || val + 2 === destroyerPosition3 || val + 2 === destroyerPosition4 || val + 2 === destroyerPosition5 || val + 2 === battleshipPosition || val + 2 === battleshipPosition2 || val + 2 === battleshipPosition3 || val + 2 === battleshipPosition4) {return val} else {val = Math.floor(Math.random() * 99)} return val;
+
+    };
+    if (Orientation === 1) {
+        if (val + 1 > 99 || val + 2>99 || val === [80-89] || val === [90-99] || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 20 === destroyerPosition || val + 20 === destroyerPosition2 || val + 20 === destroyerPosition3 || val + 20 === destroyerPosition4 || val + 20 === destroyerPosition5 || val + 20 === battleshipPosition || val + 20 === battleshipPosition2 || val + 20 === battleshipPosition3 || val + 20 === battleshipPosition4) {return val}  else {val = Math.floor(Math.random() * 99)} return val;
+    };
+};
+
+function generateSmallship() {
+    let val = Math.floor(Math.random() * 99);
+    if (Orientation === 0) {
+        if (val + 1 > 99 || val === 9 || val === 19 || val === 29 || val === 39 || val === 49 || val === 59 || val === 69 || val === 79 || val === 89 || val === 99 || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3 || val + 1 === destroyerPosition || val + 1 === destroyerPosition2 || val + 1 === destroyerPosition3 || val + 1 === destroyerPosition4 || val + 1 === destroyerPosition5 || val + 1 === battleshipPosition || val + 1 === battleshipPosition2 || val + 1 === battleshipPosition3 || val + 1 === battleshipPosition4 || val + 1 === submarinePosition || val + 1 === submarinePosition2 || val + 1 === submarinePosition3) {return val} else {val = Math.floor(Math.random() * 99)} return val;
     }
-  }
-  
-  let destroyerCount = 0
-  let submarineCount = 0
-  let cruiserCount = 0
-  let battleshipCount = 0
-  let carrierCount = 0
-  
-  function revealSquare(classList) {
-    const enemySquare = computerGrid.querySelector(`div[data-id='${shotFired}']`)
-    const obj = Object.values(classList)
-    if (!enemySquare.classList.contains('boom') && currentPlayer === 'user' && !isGameOver) {
-      if (obj.includes('destroyer')) destroyerCount++
-      if (obj.includes('submarine')) submarineCount++
-      if (obj.includes('cruiser')) cruiserCount++
-      if (obj.includes('battleship')) battleshipCount++
-      if (obj.includes('carrier')) carrierCount++
+    if (Orientation === 1) {
+        if (val + 1 > 99 || val === [90-99] || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3 || val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 10 === submarinePosition || val + 10 === submarinePosition2 || val + 10 === submarinePosition3) {return val} else {val = Math.floor(Math.random() * 99)} return val;
     }
-    if (obj.includes('taken')) {
-      enemySquare.classList.add('boom')
-    } else {
-      enemySquare.classList.add('miss')
+};
+
+function randomCible() {
+    randomShoot = Math.floor(Math.random() * 99);
+
+    let cible = document.getElementById(randomShoot);
+    //console.log(cible);
+
+    while (cible.classList.contains('plouf') || cible.classList.contains('touche')) {
+        randomShoot = Math.floor(Math.random() * 99);
+        cible = document.getElementById(randomShoot);
+    };
+    if (cible.classList.contains('bateau-user')) {
+        cible.classList.replace('bateau-user', 'touche');
+        shipUserShot = shipUserShot + 1;
+        console.log(shipUserShot)
+        if (shipUserShot === 14) {
+            alert("Tu as perdu !")
+        }
     }
-    checkForWins()
-    currentPlayer = 'enemy'
-    if(gameMode === 'singlePlayer') playGameSingle()
-  }
-  
-  let cpuDestroyerCount = 0
-  let cpuSubmarineCount = 0
-  let cpuCruiserCount = 0
-  let cpuBattleshipCount = 0
-  let cpuCarrierCount = 0
-  
-  
-  function enemyGo(square) {
-    if (gameMode === 'singlePlayer') square = Math.floor(Math.random() * userSquares.length)
-    if (!userSquares[square].classList.contains('boom')) {
-      const hit = userSquares[square].classList.contains('taken')
-      userSquares[square].classList.add(hit ? 'boom' : 'miss')
-      if (userSquares[square].classList.contains('destroyer')) cpuDestroyerCount++
-      if (userSquares[square].classList.contains('submarine')) cpuSubmarineCount++
-      if (userSquares[square].classList.contains('cruiser')) cpuCruiserCount++
-      if (userSquares[square].classList.contains('battleship')) cpuBattleshipCount++
-      if (userSquares[square].classList.contains('carrier')) cpuCarrierCount++
-      checkForWins()
-    } else if (gameMode === 'singlePlayer') enemyGo()
-    currentPlayer = 'user'
-    turnDisplay.innerHTML = 'Your Go'
-  }
-  
-  function checkForWins() {
-    let enemy = 'computer'
-    if(gameMode === 'multiPlayer') enemy = 'enemy'
-    if (destroyerCount === 2) {
-      infoDisplay.innerHTML = `You sunk the ${enemy}'s destroyer`
-      destroyerCount = 10
+    else { cible.classList.replace('mer', 'plouf')};
+
+};
+
+
+function userShot(event) {
+    let userShot = event.target;
+
+    if (userShot.classList.contains('bateau-computer-easy')) {
+        userShot.classList.replace('bateau-computer-easy', 'touche');
+        shipComputerShot = shipComputerShot + 1;
+        if (shipComputerShot === 14) {
+            alert("Bravo tu as gagné !")
+        }
+        //console.log(shipComputerShot)
     }
-    if (submarineCount === 3) {
-      infoDisplay.innerHTML = `You sunk the ${enemy}'s submarine`
-      submarineCount = 10
-    }
-    if (cruiserCount === 3) {
-      infoDisplay.innerHTML = `You sunk the ${enemy}'s cruiser`
-      cruiserCount = 10
-    }
-    if (battleshipCount === 4) {
-      infoDisplay.innerHTML = `You sunk the ${enemy}'s battleship`
-      battleshipCount = 10
-    }
-    if (carrierCount === 5) {
-      infoDisplay.innerHTML = `You sunk the ${enemy}'s carrier`
-      carrierCount = 10
-    }
-    if (cpuDestroyerCount === 2) {
-      infoDisplay.innerHTML = `${enemy} sunk your destroyer`
-      cpuDestroyerCount = 10
-    }
-    if (cpuSubmarineCount === 3) {
-      infoDisplay.innerHTML = `${enemy} sunk your submarine`
-      cpuSubmarineCount = 10
-    }
-    if (cpuCruiserCount === 3) {
-      infoDisplay.innerHTML = `${enemy} sunk your cruiser`
-      cpuCruiserCount = 10
-    }
-    if (cpuBattleshipCount === 4) {
-      infoDisplay.innerHTML = `${enemy} sunk your battleship`
-      cpuBattleshipCount = 10
-    }
-    if (cpuCarrierCount === 5) {
-      infoDisplay.innerHTML = `${enemy} sunk your carrier`
-      cpuCarrierCount = 10
-    }
-  
-    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
-      infoDisplay.innerHTML = "YOU WIN"
-      gameOver()
-    }
-    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
-      infoDisplay.innerHTML = `${enemy.toUpperCase()} WINS`
-      gameOver()
-    }
-  }
-  
-  function gameOver() {
-    isGameOver = true
-    startButton.removeEventListener('click', playGameSingle)
-  }
-})
+    else { userShot.classList.replace('mer', 'plouf') };
+
+
+}
+
+//console.log(destroyerPosition, destroyerPosition2, destroyerPosition3, destroyerPosition4, destroyerPosition5);
+//console.log(battleshipPosition, battleshipPosition2, battleshipPosition3, battleshipPosition4);
+//console.log(submarinePosition, submarinePosition2, submarinePosition3);
+//console.log(smallshipPosition, smallshipPosition2);

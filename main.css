@@ -3,10 +3,10 @@
   background-color: cornsilk;
 }
 
-.grille{
-  border: 1px solid darkgray;
-  
+.bateau-computer-easy{
+  background-color: cornsilk;
 }
+
 body{
     width: 100vw;
     height: 100vh;
@@ -145,10 +145,11 @@ h1
 .grid div{
 	height: 38px;
   width: 38px;
+  border: 1px solid cornsilk;
 }
 
 .bateau-computer{
-  background-color: cornsilk;
+  background-color: #28b463;
 }
 
 .grid-computer {
@@ -172,127 +173,17 @@ h1
 
 }
 
-/*bateaux*/
-.ship > div {
-    width: 40px;
-    height: 40px;
-    background-color:white;
-  }
-  
-  .ship {
- 
-    margin: 1vmin;
-    width: calc(4.6vmin * var(--width, 1));
-    height: calc(4.6vmin * var(--height, 1));
-    border-radius: 2.3vmin;
-
-  }
-  
-  .destroyer-container {
-    --width: 2;
-  }
-  
-  .destroyer-container-vertical {
-    --height: 2;
-    --width: 1;
-  }
-  
-  .submarine-container,
-  .cruiser-container {
-    --width: 3;
-  }
-  
-  .submarine-container-vertical,
-  .cruiser-container-vertical {
-    --height: 3;
-    --width: 1;
-  }
-  
-  .battleship-container {
-    --width: 4;
-  }
-  
-  .battleship-container-vertical {
-    --height: 4;
-    --width: 1;
-  }
-  
-  .carrier-container {
-    --width: 5;
-  }
-  
-  .carrier-container-vertical {
-    --height: 5;
-    --width: 1;
-  }
-  
-
-/*bateaux placés*/
-.taken,
-.ship {
-  background-color: hsl(0, 0%, 80%);
-}
-
-.taken.start.vertical,
-.taken.start.vertical::before {
-  border-top-left-radius: 50%;
-  border-top-right-radius: 50%;
-  background-color: #4B1934;
-}
-
-.taken.end.vertical,
-.taken.end.vertical::before {
-  border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
-  background-color: #4B1934;
-}
-
-.taken.start.horizontal,
-.taken.start.horizontal::before {
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
-  background-color: #4B1934;
-}
-
-.taken.end.horizontal,
-.taken.end.horizontal::before {
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
-  background-color: #4B1934;
-}
-
-.taken.vertical::before,
-.taken.horizontal::before {
-  content: '';
-  position: absolute;
-  border: .3vmin solid white;
-  background-color: #4B1934;
-  top: -1px;
-  bottom: -1px;
-  left: -1px;
-  right: -1px;
-}
-
-.taken.horizontal::before {
-  animation: ripplesY 3s linear infinite;
-  border-left: none;
-  border-right: none;
-}
-
-.taken.vertical::before {
-  animation: ripplesX 3s linear infinite;
-  border-top: none;
-  border-bottom: none;
-}
-
 .touche{
+  background-color: cornsilk;
   background-image: url(img/explosion.svg);
   width: 38px;
   height: 38px;
 }
 
 .plouf{
-  background-image: url(img/plouf.png);
+  background-image: url(img/plouf2.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
   width: 38px;
   height: 38px;
 } 
