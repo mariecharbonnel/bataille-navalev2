@@ -127,7 +127,7 @@ h1
 .grid-user{
 	border-radius: 30px;
 	background-color: blue;
-	width: 30.91190108191654vw;
+	width: 29.282576866764277vw;
   height: 63.29113924050633vh;
   min-height: 400px;
   min-width: 400px;
@@ -154,7 +154,7 @@ h1
 
 .grid-computer {
 	border-radius: 30px;
-    width: 30.91190108191654vw;
+    width: 29.282576866764277vw;
     height: 63.29113924050633vh;
     min-height: 400px;
     min-width: 400px;
@@ -173,9 +173,12 @@ h1
 
 }
 
+
+
 .touche{
   background-color: cornsilk;
   background-image: url(img/explosion.svg);
+  background-color: cornsilk;
   width: 38px;
   height: 38px;
 }
@@ -184,21 +187,13 @@ h1
   background-image: url(img/plouf2.jpg);
   background-size: contain;
   background-repeat: no-repeat;
+  background-image: url(img/plouf.jpg);
+  background-size: cover;
   width: 38px;
   height: 38px;
 } 
-/*.case {
-  width: 10%;
-  line-height: 50px;
-  text-align: center;
-}
 
-.boat {
-  background-color: pink;
-}
-.sea {
-  background-color: blue;
-}
-.plouf {
-  background-color: green;
+#place-ok{
+  margin-left: 40vw;
+  margin-top: -20vh;
 }
