@@ -10,12 +10,6 @@ let shipComputerShot = 0;
 let shipUserShot = 0;
 let randomShoot;
 
-/*let grid = [];
-let dataGrid = [];
-let refType = {};
-let ship;
-let shipAI = 0;*/
-
 let Orientation = generateOrientation();
 
 let destroyerPosition = generateDestroyer();
@@ -256,7 +250,7 @@ function createComputerBoard(grid, squares, size) {
     }
 };
 
-
+//truc qui marche toujours pas...
 function generateDestroyer() {
 
     let val = Math.floor(Math.random() * 99);
@@ -298,6 +292,7 @@ function generateSmallship() {
         if (val + 1 > 99 || val === [90 - 99] || val === destroyerPosition || val === destroyerPosition2 || val === destroyerPosition3 || val === destroyerPosition4 || val === destroyerPosition5 || val === battleshipPosition || val === battleshipPosition2 || val === battleshipPosition3 || val === battleshipPosition4 || val === submarinePosition || val === submarinePosition2 || val === submarinePosition3 || val + 10 === destroyerPosition || val + 10 === destroyerPosition2 || val + 10 === destroyerPosition3 || val + 10 === destroyerPosition4 || val + 10 === destroyerPosition5 || val + 10 === battleshipPosition || val + 10 === battleshipPosition2 || val + 10 === battleshipPosition3 || val + 10 === battleshipPosition4 || val + 10 === submarinePosition || val + 10 === submarinePosition2 || val + 10 === submarinePosition3) { return val } else { val = Math.floor(Math.random() * 99) } return val;
     }
 };
+//bah là non plus
 
 function randomCible() {
     randomShoot = Math.floor(Math.random() * 99);
