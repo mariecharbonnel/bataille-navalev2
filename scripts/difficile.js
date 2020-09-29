@@ -124,7 +124,7 @@ function apercu(event) {
     }
 
     if(shipUserSquares>=14){
-        alert("Bravo ta flotte est placée !")
+        alert("Bravo ta flotte est placée !");
         userGrid.removeEventListener('click', apercu);
         placeButton.classList.remove('hidden');
     }
@@ -137,6 +137,8 @@ userGrid.addEventListener('click', apercu);
 placeButton.addEventListener('click', (event) => {
     userGrid.removeEventListener('click', apercu);
     computerGrid.addEventListener('click', userShot);
+    randomShot();
+
 });
 
 
@@ -240,6 +242,8 @@ function createComputerBoard(grid, squares, size) {
         };
     }
 };
+
+console.log(computerSquares)
 
 function generateRandom() {
     return Math.floor(Math.random() * 95);
